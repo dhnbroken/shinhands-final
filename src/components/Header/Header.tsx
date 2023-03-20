@@ -12,7 +12,7 @@ import { BellOutlined, MenuFoldOutlined, SearchOutlined } from '@ant-design/icon
 
 import './Header.scss';
 import Avatar from '@mui/material/Avatar';
-import { GlobalContextProvider } from '~/Context/GlobalContext';
+import { useSelector } from 'react-redux';
 
 interface Props {
   showSidebar: boolean;
@@ -21,7 +21,8 @@ interface Props {
 
 const Header: React.FC<Props> = (props) => {
   const { setShowSidebar, showSidebar } = props;
-  const { user } = useContext(GlobalContextProvider);
+  const { user } = useSelector((state: any) => state.userReducer);
+
   return (
     <Toolbar sx={{ borderBottom: '1px solid #f0f0f0' }}>
       <IconButton className='header_btn' onClick={() => setShowSidebar(!showSidebar)}>
@@ -53,7 +54,7 @@ const Header: React.FC<Props> = (props) => {
         sx={{ color: 'black', textTransform: 'none', width: '15%' }}
         startIcon={
           <Avatar
-            alt={user.username}
+            alt={user?.username}
             src='https://images.squarespace-cdn.com/content/v1/54b7b93ce4b0a3e130d5d232/1519987020970-8IQ7F6Z61LLBCX85A65S/icon.png?format=500w'
           />
         }

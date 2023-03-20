@@ -1,62 +1,50 @@
 // import { Typography } from '@mui/material';
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
-import { getAllUsers, getUserInfo } from '~/API/user';
+import { useSelector } from 'react-redux';
 import PaginatedItems from '~/components/PaginatedItem/PaginatedItem';
 import { GlobalContextProvider } from '~/Context/GlobalContext';
+import { useAppDispatch } from '~/redux/hooks';
 import { IUser } from '~/store/interface';
+import { getAllUsers, getUserInfo } from '~/redux/actions/userActions';
 
 const Home: React.FC = () => {
-  const { setAccessToken, setUserId, setUsers, setLoading, setUser, loading } =
-    useContext(GlobalContextProvider);
+  const { setUsers, setLoading, loading } = useContext(GlobalContextProvider);
   const [loadingComponent, setLoadingComponent] = useState(true);
+  const dispatch = useAppDispatch();
 
-  const accessToken = sessionStorage.getItem('accessToken');
-  const userId = sessionStorage.getItem('userId');
-  const getUsers = async (accessToken: string | null) => {
-    try {
-      const res = await getAllUsers(accessToken);
-      setLoading(false);
-      setLoadingComponent(false);
-      setUsers(
-        res.map((user: IUser) => {
-          return {
-            id: user._id,
-            username: user.username,
-            email: user.email,
-            createdAt: moment(user.createdAt).format('DD/MM/YYYY'),
-            isAdmin: user.isAdmin ? 'Yes' : 'No',
-          };
-        }),
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const getUser = async (accessToken: string | null, id: string | null) => {
-    try {
-      const res = await getUserInfo(accessToken, id);
-      setUser(res);
-      setLoading(false);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  useEffect(() => {
-    setAccessToken(sessionStorage.getItem('accessToken'));
-    setUserId(sessionStorage.getItem('userId'));
-  }, []);
+  const { users } = useSelector((state: any) => state.userReducer);
 
   React.useEffect(() => {
-    getUsers(accessToken);
-    getUser(accessToken, userId);
+    const accessToken = sessionStorage.getItem('accessToken');
+    const userId = sessionStorage.getItem('userId');
+
+    if (accessToken) {
+      dispatch(getAllUsers(accessToken)).then(() => {
+        setLoading(false);
+        setLoadingComponent(false);
+      });
+      dispatch(getUserInfo(accessToken, userId));
+    }
   }, [loading]);
+
+  useEffect(() => {
+    setUsers(
+      users?.map((user: IUser) => {
+        return {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          createdAt: moment(user.createdAt).format('DD/MM/YYYY'),
+          isAdmin: user.isAdmin ? 'Yes' : 'No',
+        };
+      }),
+    );
+  }, [users]);
 
   return (
     <div>
-      <PaginatedItems loadingComponent={loadingComponent} getUsers={getUsers} getUser={getUser} />
+      <PaginatedItems loadingComponent={loadingComponent} />
     </div>
   );
 };

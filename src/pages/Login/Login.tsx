@@ -22,6 +22,7 @@ import * as yup from 'yup';
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import { login } from '~/redux/actions/auth';
 import { useAppDispatch } from '~/redux/hooks';
+import { useSelector } from 'react-redux';
 
 const schema = yup
   .object({

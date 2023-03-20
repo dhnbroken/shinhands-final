@@ -3,18 +3,21 @@ import { Modal, Box, Typography, Button, Stack, Grid, FormHelperText } from '@mu
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { useContext } from 'react';
 import { IUser } from '~/store/interface';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { updateUser } from '~/API/user';
+// import { updateUser } from '~/API/user';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useAppDispatch } from '~/redux/hooks';
+import { getAllUsers, updateUser } from '~/redux/actions/userActions';
+import { GlobalContextProvider } from '~/Context/GlobalContext';
+import { useSelector } from 'react-redux';
 
 interface Props {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
   userInfo: IUser;
-  getUsers: (accessToken: string | null) => Promise<void>;
   setUserInfo: React.Dispatch<React.SetStateAction<IUser>>;
 }
 
@@ -37,7 +40,8 @@ const style = {
 };
 
 const EditModal: React.FC<Props> = (props) => {
-  const { open, setOpen, loading, getUsers, userInfo, setUserInfo } = props;
+  const { setLoading } = useContext(GlobalContextProvider);
+  const { open, setOpen, loading, userInfo, setUserInfo } = props;
 
   const handleClose = () => {
     setOpen(false);
@@ -46,16 +50,7 @@ const EditModal: React.FC<Props> = (props) => {
   const accessToken = sessionStorage.getItem('accessToken');
 
   const { register, handleSubmit } = useForm<IFormInput>();
-
-  const updateUserInfo = async (data: IUser, accessToken: string | null, userId: string | null) => {
-    try {
-      await updateUser(data, accessToken, userId);
-      getUsers(accessToken);
-      handleClose();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     if (data) {
@@ -63,10 +58,16 @@ const EditModal: React.FC<Props> = (props) => {
         email: data.email,
         password: data.password,
       };
-      !!accessToken && !!userInfo._id && updateUserInfo(updateData, accessToken, userInfo._id);
+      !!accessToken &&
+        !!userInfo._id &&
+        dispatch(updateUser(updateData, accessToken, userInfo._id)).then(() => {
+          setLoading(true);
+          handleClose();
+        });
     }
-    console.log(data);
   };
+
+  const { user } = useSelector((state: any) => state.userReducer);
   return (
     <Modal
       open={open}
@@ -92,25 +93,7 @@ const EditModal: React.FC<Props> = (props) => {
                     type='email'
                     {...register('email')}
                     name='email'
-                    placeholder={userInfo.email}
-                  />
-                  <FormHelperText
-                    error
-                    id='standard-weight-helper-text-password-login'
-                  ></FormHelperText>
-                </Stack>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Stack spacing={1}>
-                  <InputLabel htmlFor='password-update'>Password</InputLabel>
-                  <OutlinedInput
-                    fullWidth
-                    id='password-update'
-                    type='password'
-                    {...register('password')}
-                    name='password'
-                    // placeholder={userInfo.email}
+                    defaultValue={user?.email}
                   />
                   <FormHelperText
                     error

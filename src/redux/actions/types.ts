@@ -6,3 +6,17 @@ export const LOGOUT = 'LOGOUT';
 
 export const SET_MESSAGE = 'SET_MESSAGE';
 export const CLEAR_MESSAGE = 'CLEAR_MESSAGE';
+
+export const GETUSERS_START = 'GETUSERS_START';
+export const GETUSERS_SUCCESS = 'GETUSERS_SUCCESS';
+export const GETUSERS_FAIL = 'GETUSERS_FAIL';
+
+export const GETUSER_START = 'GETUSER_START';
+export const GETUSER_SUCCESS = 'GETUSER_SUCCESS';
+export const GETUSER_FAIL = 'GETUSER_FAIL';
+
+export const UPDATE_START = 'UPDATE_START';
+export const UPDATE_SUCCESS = 'UPDATE_SUCCESS';
+export const UPDATE_FAIL = 'UPDATE_FAIL';
+
+export const CLEAR_USERS = 'CLEAR_USERS';

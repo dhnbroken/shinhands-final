@@ -16,11 +16,12 @@ import {
   ProfileOutlined,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import { signout } from '~/API/auth';
 import { GlobalContextProvider } from '~/Context/GlobalContext';
+import { useAppDispatch } from '~/redux/hooks';
+import { logout } from '~/redux/actions/auth';
 
 const SidebarList = () => {
-  const { setUsers, setLoading, loading, setUser } = useContext(GlobalContextProvider);
+  const { setLoading, loading } = useContext(GlobalContextProvider);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [accessToken, setAccessToken] = useState(sessionStorage.getItem('accessToken'));
 
@@ -31,15 +32,11 @@ const SidebarList = () => {
     setSelectedIndex(index);
   };
 
+  const dispatch = useAppDispatch();
   const handleLogout = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     handleListItemClick(e, 3);
-    signout(accessToken)
-      .then(() => {
-        setUsers([]);
-        setUser({});
-      })
-      .then(() => setLoading(false));
-    setAccessToken('');
+    sessionStorage.removeItem('accessToken');
+    dispatch(logout(accessToken)).then(() => setLoading(true));
   };
 
   useEffect(() => {
