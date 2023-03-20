@@ -1,0 +1,28 @@
+.sidebar_sub {
+  padding-left: 24px;
+
+  &:first-of-type {
+    margin-bottom: 12px;
+  }
+
+  &:not(:first-of-type) {
+    margin-top: 12px;
+  }
+  .MuiTypography-h6 {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.66;
+    font-family: 'Public Sans', sans-serif;
+    color: #8c8c8c;
+  }
+}
+
+.active {
+  margin: 0;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  font-family: 'Public Sans', sans-serif;
+  color: #1890ff;
+}

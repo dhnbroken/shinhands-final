@@ -1,0 +1,27 @@
+.MuiToolbar-root .header_btn {
+  padding: 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+
+  &:first-of-type {
+    margin-left: -16px;
+  }
+
+  //   &:hover {
+  //     border-radius: 4px;
+  //   }
+
+  &:active {
+    border-radius: 4px;
+  }
+}
+
+.header_input_search {
+  .MuiInputBase-input {
+    height: 18px !important;
+
+    &::placeholder {
+      font-size: 14px;
+    }
+  }
+}
