@@ -16,7 +16,7 @@ export default function ProfileCard(props: Props) {
   const { user } = props;
 
   const handleUpdateUser = () => {
-    console.log(user);
+    // console.log(user);
   };
   return (
     <Card sx={{ maxWidth: 345 }}>

@@ -10,10 +10,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import { signout } from '~/API/auth';
 import { CircularProgress } from '@mui/material';
 import { IUser } from '~/store/interface';
+import { useAppDispatch } from '~/redux/hooks';
+import { useSelector } from 'react-redux';
 
-export default function PaginatedItems({ loadingComponent, getUsers }: any) {
-  const { setUsers, users, loading, setLoading, setUser, user } =
-    React.useContext(GlobalContextProvider);
+export default function PaginatedItems({ loadingComponent }: any) {
+  const { setUsers, users, loading, setLoading, setUser } = React.useContext(GlobalContextProvider);
 
   const accessToken = sessionStorage.getItem('accessToken');
   const userId = sessionStorage.getItem('userId');
@@ -21,6 +22,7 @@ export default function PaginatedItems({ loadingComponent, getUsers }: any) {
   const [userInfo, setUserInfo] = React.useState<IUser>({});
 
   const [open, setOpen] = React.useState(false);
+  const { user } = useSelector((state: any) => state.userReducer);
 
   const { data } = useDemoData({
     dataSet: 'Commodity',
@@ -53,10 +55,13 @@ export default function PaginatedItems({ loadingComponent, getUsers }: any) {
     }
   };
 
+  const dispatch = useAppDispatch();
+
   const handleUpdate = (params: any) => {
     setOpen(true);
-    setLoading(true);
+    // setLoading(true);
     getUser(accessToken, params.id as any);
+    dispatch(getUserInfo(accessToken, params.id as any));
   };
 
   const columns: GridColDef[] = [
@@ -88,7 +93,7 @@ export default function PaginatedItems({ loadingComponent, getUsers }: any) {
           icon={<DeleteIcon />}
           label='Delete'
           onClick={() => deleteUserAccount(accessToken, params.id as any)}
-          disabled={!user.isAdmin && params.id !== userId}
+          disabled={!user.isAdmin}
           showInMenu
         />,
         <GridActionsCellItem
@@ -103,15 +108,13 @@ export default function PaginatedItems({ loadingComponent, getUsers }: any) {
     },
   ];
 
-  console.log(users);
-
   return (
     <div style={{ height: '50vh', width: '100%' }}>
       {!accessToken && <div>You need to login to see this feature</div>}
       {loadingComponent ? (
         <CircularProgress />
       ) : (
-        !!users.length && (
+        !!users && (
           <DataGrid
             {...users}
             initialState={{
@@ -128,7 +131,6 @@ export default function PaginatedItems({ loadingComponent, getUsers }: any) {
         open={open}
         setOpen={setOpen}
         loading={loading}
-        getUsers={getUsers}
         userInfo={userInfo}
         setUserInfo={setUserInfo}
       />

@@ -1,5 +1,5 @@
 import { IUser } from '~/store/interface';
-import { axiosInstance } from './axiosInstance';
+import { axiosAction, axiosInstance } from './axiosInstance';
 
 export const getAllUsers = async (accessToken: string | null) => {
   const res = await axiosInstance.get('/v1/user/', {
@@ -20,7 +20,7 @@ export const updateUser = async (
   accessToken: string | null,
   userId: string | null,
 ) => {
-  const res = await axiosInstance.put(`/v1/user/${userId}/update/`, data, {
+  const res = await axiosAction.put(`/v1/user/${userId}/update/`, data, {
     params: { id: userId },
     headers: { token: `Bearer ${accessToken}` },
   });
@@ -28,7 +28,7 @@ export const updateUser = async (
 };
 
 export const deleteUser = async (accessToken: string | null, userId: string | null) => {
-  const res = await axiosInstance.delete(`/v1/user/${userId}/delete/`, {
+  const res = await axiosAction.delete(`/v1/user/${userId}/delete/`, {
     params: { id: userId },
     headers: { token: `Bearer ${accessToken}` },
   });

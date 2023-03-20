@@ -7,6 +7,7 @@ import User from '~/pages/User/User';
 const publicRoutes = [
   { path: '/', component: Home },
   { path: '/dashboard', component: DashBoard },
+  { path: '/user', component: User },
   { path: '/user/:id', component: User },
 ];
 

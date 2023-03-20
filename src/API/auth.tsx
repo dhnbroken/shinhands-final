@@ -1,6 +1,5 @@
-import { axiosInstance } from './axiosInstance';
+import { axiosAction, axiosInstance } from './axiosInstance';
 import { TLoginData, TRegisterData } from '~/store/interface';
-import Cookies from 'js-cookie';
 
 export const signin = async ({ username, password }: TLoginData) => {
   return await axiosInstance
@@ -21,7 +20,7 @@ export const signin = async ({ username, password }: TLoginData) => {
 };
 
 export const register = async ({ username, password, email }: TRegisterData) => {
-  return await axiosInstance
+  return await axiosAction
     .post('v1/auth/register', {
       username,
       password,

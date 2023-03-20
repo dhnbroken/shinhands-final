@@ -1,4 +1,3 @@
-import { updateUser } from './../../API/user';
 import { signout } from './../../API/auth';
 import { register, signin } from '~/API/auth';
 import {
@@ -8,6 +7,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   SET_MESSAGE,
+  CLEAR_USERS,
 } from './types';
 
 import { Dispatch } from '@reduxjs/toolkit';
@@ -81,10 +81,11 @@ export const login = (username: string, password: string) => async (dispatch: an
 //   updateUser
 // }
 
-// export const logout = () => (dispatch: any) => {
-//   signout();
-
-//   dispatch({
-//     type: LOGOUT,
-//   });
-// };
+export const logout = (accessToken: string | null) => (dispatch: any) => {
+  signout(accessToken);
+  dispatch({
+    type: LOGOUT,
+  });
+  dispatch({ type: CLEAR_USERS });
+  return Promise.resolve();
+};
