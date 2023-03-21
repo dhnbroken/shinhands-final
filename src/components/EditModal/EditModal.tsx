@@ -3,15 +3,16 @@ import { Modal, Box, Typography, Button, Stack, Grid, FormHelperText } from '@mu
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { motion } from 'framer-motion';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { IUser } from '~/store/interface';
 import { useForm, SubmitHandler } from 'react-hook-form';
 // import { updateUser } from '~/API/user';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useAppDispatch } from '~/redux/hooks';
-import { getAllUsers, updateUser } from '~/redux/actions/userActions';
+import { updateUser } from '~/redux/actions/userActions';
 import { GlobalContextProvider } from '~/Context/GlobalContext';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 interface Props {
   open: boolean;
@@ -25,6 +26,7 @@ interface IFormInput {
   email: string;
   password: string;
   confirmPassword: string;
+  image: string;
 }
 
 const style = {
@@ -42,6 +44,15 @@ const style = {
 const EditModal: React.FC<Props> = (props) => {
   const { setLoading } = useContext(GlobalContextProvider);
   const { open, setOpen, loading, userInfo, setUserInfo } = props;
+  const [fileChosen, setFileChosen] = useState('');
+  const [avatar, setAvatar] = useState<any>('');
+  const onImageChange = (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      const img = event.target.files[0];
+      setFileChosen(URL.createObjectURL(img));
+      setAvatar(img);
+    }
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -53,20 +64,31 @@ const EditModal: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    if (data) {
-      const updateData: IUser = {
-        email: data.email,
-        password: data.password,
-      };
-      !!accessToken &&
-        !!userInfo._id &&
-        dispatch(updateUser(updateData, accessToken, userInfo._id)).then(() => {
-          setLoading(true);
-          handleClose();
-        });
+    if (avatar) {
+      const imageData = new FormData();
+      const fileName = Date.now() + avatar.name;
+      imageData.append('name', fileName);
+      imageData.append('file', avatar);
+      try {
+        axios.post('http://localhost:8000/upload/', imageData);
+      } catch (err) {
+        console.log(err);
+      }
+      if (data) {
+        const updateData: IUser = {
+          email: data.email,
+          password: data.password,
+          avatar: fileName,
+        };
+        !!accessToken &&
+          !!userInfo._id &&
+          dispatch(updateUser(updateData, accessToken, userInfo._id)).then(() => {
+            setLoading(true);
+            handleClose();
+          });
+      }
     }
   };
-
   const { user } = useSelector((state: any) => state.userReducer);
   return (
     <Modal
@@ -82,8 +104,18 @@ const EditModal: React.FC<Props> = (props) => {
         {loading ? (
           <CircularProgress />
         ) : (
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data'>
             <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <div className='col-md-8 col-lg-6 col-xl-5 text-center'>
+                  <img
+                    src={import.meta.env.VITE_PUBLIC_IMAGE_URL + user?.avatar || fileChosen}
+                    className='img-fluid'
+                    width='150'
+                    alt='...'
+                  />
+                </div>
+              </Grid>
               <Grid item xs={12}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor='email-login'>Email</InputLabel>
@@ -100,6 +132,21 @@ const EditModal: React.FC<Props> = (props) => {
                     id='standard-weight-helper-text-password-login'
                   ></FormHelperText>
                 </Stack>
+              </Grid>
+
+              <Grid item xs={12}>
+                <div className='form-outline mb-3'>
+                  <input
+                    type='file'
+                    accept='.png, .jpg, .jpeg'
+                    id='form3Example4'
+                    className='form-control form-control-lg'
+                    placeholder='Image'
+                    {...register('image')}
+                    onChange={onImageChange}
+                  />
+                  <p className='text-danger'>{!avatar && 'Please choose Image'}</p>
+                </div>
               </Grid>
 
               <Grid item xs={12}>

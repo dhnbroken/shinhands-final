@@ -51,7 +51,7 @@ const Header: React.FC<Props> = (props) => {
       </IconButton>
       <Button
         variant='text'
-        sx={{ color: 'black', textTransform: 'none', width: '15%' }}
+        sx={{ color: 'black', textTransform: 'none' }}
         startIcon={
           <Avatar
             alt={user?.username}

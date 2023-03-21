@@ -8,17 +8,16 @@ const DefaultLayout = ({ children }: any) => {
   return (
     <Grid container>
       {showSidebar && (
-        <Grid item sm={1} md={3} sx={{ display: { xs: 'none', sm: 'block' } }}>
+        <Grid item sm={1} md={3} sx={{ display: { xs: 'none', md: 'block' } }}>
           <Sidebar />
         </Grid>
       )}
       <Grid
         item
-        sm={11}
-        md={12}
+        sm={12}
         sx={{
-          width: { xs: '100%', sm: 'calc(100% - 256px)' },
-          ml: { xs: '0', sm: !showSidebar ? '0px' : '256px' },
+          width: { xs: '100%', md: 'calc(100% - 256px)' },
+          ml: { xs: '0', md: !showSidebar ? '0px' : '256px' },
         }}
       >
         <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} />

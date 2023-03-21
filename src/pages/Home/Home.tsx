@@ -36,7 +36,7 @@ const Home: React.FC = () => {
           username: user.username,
           email: user.email,
           createdAt: moment(user.createdAt).format('DD/MM/YYYY'),
-          isAdmin: user.isAdmin ? 'Yes' : 'No',
+          isAdmin: user?.isAdmin ? 'Yes' : 'No',
         };
       }),
     );

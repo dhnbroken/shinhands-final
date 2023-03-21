@@ -16,4 +16,12 @@ export interface IUser {
   email?: string;
   createdAt?: string;
   isAdmin?: boolean;
+  avatar?: string;
+}
+
+export interface ISneakerData {
+  name: string;
+  price: number;
+  image: string;
+  description: string;
 }

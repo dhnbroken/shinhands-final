@@ -32,7 +32,7 @@ export default function PaginatedItems({ loadingComponent }: any) {
 
   const deleteUserAccount = async (accessToken: string | null, userId: string | null) => {
     try {
-      if (!user.isAdmin) {
+      if (!user?.isAdmin) {
         signout(accessToken).then(() => {
           setUsers([]);
           setUser({});
@@ -93,7 +93,7 @@ export default function PaginatedItems({ loadingComponent }: any) {
           icon={<DeleteIcon />}
           label='Delete'
           onClick={() => deleteUserAccount(accessToken, params.id as any)}
-          disabled={!user.isAdmin}
+          disabled={!user?.isAdmin}
           showInMenu
         />,
         <GridActionsCellItem
