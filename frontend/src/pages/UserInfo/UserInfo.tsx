@@ -58,7 +58,7 @@ const UserInfo = () => {
           <Grid item xs={7} padding={5}>
             <form>
               <Grid container spacing={2}>
-                <Grid item xs={5}>
+                <Grid item xs={6}>
                   <TextField
                     placeholder='First Name'
                     label='Firstname'
@@ -68,12 +68,12 @@ const UserInfo = () => {
                     className='user_textfield'
                   />
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={6}>
                   <TextField
                     size='medium'
-                    placeholder='Last Name'
                     variant='outlined'
                     fullWidth
+                    label='Lastname'
                     sx={{ height: '1.4375em !important' }}
                     className='user_textfield'
                   />
