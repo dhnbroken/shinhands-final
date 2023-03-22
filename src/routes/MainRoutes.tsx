@@ -2,10 +2,14 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import AuthWrapper from '~/components/AuthWrapper/AuthWrapper';
 import DefaultLayout from '~/layout/DefaultLayout';
-import { publicRoutes, authRoutes } from './routes';
+import { publicRoutes, authRoutes, adminRoute } from './routes';
 
 const getAccessToken = () => {
   return sessionStorage.getItem('accessToken');
+};
+
+const getAdminRoute = () => {
+  return sessionStorage.getItem('isAdmin');
 };
 
 const MainRoutes: React.FC = () => {
@@ -38,6 +42,24 @@ const MainRoutes: React.FC = () => {
                 <AuthWrapper>
                   <Page />
                 </AuthWrapper>
+              )
+            }
+          />
+        );
+      })}
+      {adminRoute.map((route, index) => {
+        const Page = route.component;
+        return (
+          <Route
+            key={index}
+            path={route.path}
+            element={
+              !getAdminRoute() ? (
+                <Navigate to='/' />
+              ) : (
+                <DefaultLayout>
+                  <Page />
+                </DefaultLayout>
               )
             }
           />

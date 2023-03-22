@@ -17,6 +17,12 @@ export interface IUser {
   createdAt?: string;
   isAdmin?: boolean;
   avatar?: string;
+  phoneNumber?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  city?: string;
+  relationship?: string;
+  country?: string;
 }
 
 export interface ISneakerData {

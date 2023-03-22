@@ -8,9 +8,12 @@ import UserInfo from '~/pages/UserInfo/UserInfo';
 
 const publicRoutes = [
   { path: '/', component: Home },
-  { path: '/dashboard', component: DashBoard },
   { path: '/user', component: User },
   { path: '/user/:id', component: UserInfo },
+];
+
+const adminRoute = [
+  { path: '/dashboard', component: DashBoard },
   { path: '/products', component: Products },
 ];
 
@@ -19,4 +22,4 @@ const authRoutes = [
   { path: '/register', component: Register },
 ];
 
-export { publicRoutes, authRoutes };
+export { publicRoutes, authRoutes, adminRoute };

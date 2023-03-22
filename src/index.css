@@ -522,3 +522,7 @@ textarea {
   font-family: 'Public Sans', sans-serif;
   font-weight: 400;
 }
+
+.user_textfield > .MuiInputBase-root > input {
+  height: auto !important;
+}
