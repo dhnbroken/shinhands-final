@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Box,
   List,
@@ -21,9 +21,10 @@ import { useAppDispatch } from '~/redux/hooks';
 import { logout } from '~/redux/actions/auth';
 
 const SidebarList = () => {
-  const { setLoading, loading } = useContext(GlobalContextProvider);
+  const { setLoading } = useContext(GlobalContextProvider);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [accessToken, setAccessToken] = useState(sessionStorage.getItem('accessToken'));
+  // const [accessToken, setAccessToken] = useState(sessionStorage.getItem('accessToken'));
+  const accessToken = sessionStorage.getItem('accessToken');
 
   const handleListItemClick = (
     _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -35,13 +36,8 @@ const SidebarList = () => {
   const dispatch = useAppDispatch();
   const handleLogout = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     handleListItemClick(e, 3);
-    sessionStorage.removeItem('accessToken');
     dispatch(logout(accessToken)).then(() => setLoading(true));
   };
-
-  useEffect(() => {
-    setAccessToken(sessionStorage.getItem('accessToken'));
-  }, [accessToken, loading]);
 
   return (
     <List>

@@ -10,8 +10,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import { signout } from '~/API/auth';
 import { CircularProgress } from '@mui/material';
 import { IUser } from '~/store/interface';
-import { useAppDispatch } from '~/redux/hooks';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export default function PaginatedItems({ loadingComponent }: any) {
   const { setUsers, users, loading, setLoading, setUser } = React.useContext(GlobalContextProvider);
@@ -55,13 +55,11 @@ export default function PaginatedItems({ loadingComponent }: any) {
     }
   };
 
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleUpdate = (params: any) => {
     setOpen(true);
-    // setLoading(true);
-    getUser(accessToken, params.id as any);
-    dispatch(getUserInfo(accessToken, params.id as any));
+    navigate(`/user/${params.id}`);
   };
 
   const columns: GridColDef[] = [

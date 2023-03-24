@@ -25,10 +25,6 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    toast.error(
-      error.response.status === 500 ? 'Error, please try again' : error.response.data,
-      toastConfig,
-    );
     throw new Error(error);
   },
 );

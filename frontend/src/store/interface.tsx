@@ -16,6 +16,8 @@ export interface IUser {
   email?: string;
   createdAt?: string;
   isAdmin?: boolean;
+  firstname?: string;
+  lastname?: string;
   avatar?: string;
   phoneNumber?: string;
   addressLine1?: string;

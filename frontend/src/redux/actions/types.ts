@@ -20,3 +20,7 @@ export const UPDATE_SUCCESS = 'UPDATE_SUCCESS';
 export const UPDATE_FAIL = 'UPDATE_FAIL';
 
 export const CLEAR_USERS = 'CLEAR_USERS';
+
+export const GETSHOES_START = 'GETSHOES_START';
+export const GETSHOES_SUCCESS = 'GETSHOES_SUCCESS';
+export const GETSHOES_FAIL = 'GETSHOES_FAIL';

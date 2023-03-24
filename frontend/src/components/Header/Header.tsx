@@ -13,6 +13,7 @@ import { BellOutlined, MenuFoldOutlined, SearchOutlined } from '@ant-design/icon
 import './Header.scss';
 import Avatar from '@mui/material/Avatar';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   showSidebar: boolean;
@@ -22,6 +23,7 @@ interface Props {
 const Header: React.FC<Props> = (props) => {
   const { setShowSidebar, showSidebar } = props;
   const { user } = useSelector((state: any) => state.userReducer);
+  const navigate = useNavigate();
 
   return (
     <Toolbar sx={{ borderBottom: '1px solid #f0f0f0' }}>
@@ -55,9 +57,15 @@ const Header: React.FC<Props> = (props) => {
         startIcon={
           <Avatar
             alt={user?.username}
-            src='https://images.squarespace-cdn.com/content/v1/54b7b93ce4b0a3e130d5d232/1519987020970-8IQ7F6Z61LLBCX85A65S/icon.png?format=500w'
+            src={
+              import.meta.env.VITE_PUBLIC_IMAGE_URL + user?.avatar ||
+              'https://images.squarespace-cdn.com/content/v1/54b7b93ce4b0a3e130d5d232/1519987020970-8IQ7F6Z61LLBCX85A65S/icon.png?format=500w'
+            }
           />
         }
+        onClick={() => {
+          navigate(`/user/${user._id}`);
+        }}
       >
         {user?.username}
       </Button>

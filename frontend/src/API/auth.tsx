@@ -42,5 +42,6 @@ export const signout = async (accessToken: string | null) => {
     .then(() => {
       sessionStorage.removeItem('accessToken');
       sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('isAdmin');
     });
 };

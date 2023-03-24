@@ -1,4 +1,3 @@
-import DashBoard from '~/pages/DashBoard/DashBoard';
 import Home from '~/pages/Home/Home';
 import Login from '~/pages/Login/Login';
 import Products from '~/pages/Products/Products';
@@ -8,14 +7,11 @@ import UserInfo from '~/pages/UserInfo/UserInfo';
 
 const publicRoutes = [
   { path: '/', component: Home },
-  { path: '/user', component: User },
   { path: '/user/:id', component: UserInfo },
-];
-
-const adminRoute = [
-  { path: '/dashboard', component: DashBoard },
   { path: '/products', component: Products },
 ];
+
+const adminRoute = [{ path: '/user', component: User }];
 
 const authRoutes = [
   { path: '/login', component: Login },

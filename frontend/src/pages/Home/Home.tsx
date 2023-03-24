@@ -1,52 +1,24 @@
-// import { Typography } from '@mui/material';
-import moment from 'moment';
-import React, { useContext, useEffect, useState } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
+import React, { useContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import PaginatedItems from '~/components/PaginatedItem/PaginatedItem';
 import { GlobalContextProvider } from '~/Context/GlobalContext';
+import { getUserInfo } from '~/redux/actions/userActions';
 import { useAppDispatch } from '~/redux/hooks';
-import { IUser } from '~/store/interface';
-import { getAllUsers, getUserInfo } from '~/redux/actions/userActions';
 
 const Home: React.FC = () => {
-  const { setUsers, setLoading, loading } = useContext(GlobalContextProvider);
-  const [loadingComponent, setLoadingComponent] = useState(true);
   const dispatch = useAppDispatch();
+  const accessToken = sessionStorage.getItem('accessToken');
+  const { loading, setLoading } = useContext(GlobalContextProvider);
+  const userId = sessionStorage.getItem('userId');
 
-  const { users } = useSelector((state: any) => state.userReducer);
-
-  React.useEffect(() => {
-    const accessToken = sessionStorage.getItem('accessToken');
-    const userId = sessionStorage.getItem('userId');
-
-    if (accessToken) {
-      dispatch(getAllUsers(accessToken)).then(() => {
-        setLoading(false);
-        setLoadingComponent(false);
-      });
-      dispatch(getUserInfo(accessToken, userId));
-    }
+  useEffect(() => setLoading(true), []);
+  useEffect(() => {
+    dispatch(getUserInfo(accessToken, userId)).then(() => setLoading(false));
   }, [loading]);
 
-  useEffect(() => {
-    setUsers(
-      users?.map((user: IUser) => {
-        return {
-          id: user._id,
-          username: user.username,
-          email: user.email,
-          createdAt: moment(user.createdAt).format('DD/MM/YYYY'),
-          isAdmin: user?.isAdmin ? 'Yes' : 'No',
-        };
-      }),
-    );
-  }, [users]);
+  const { user } = useSelector((state: any) => state.userReducer);
 
-  return (
-    <div>
-      <PaginatedItems loadingComponent={loadingComponent} />
-    </div>
-  );
+  return loading ? <CircularProgress /> : <div>{user ? user.username : 'please login'}</div>;
 };
 
 export default Home;

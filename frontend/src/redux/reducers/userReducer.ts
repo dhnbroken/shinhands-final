@@ -31,7 +31,10 @@ export default function (state = initialState, action: any) {
     case GETUSER_FAIL:
       return { ...state, loading: false, error: true };
     case CLEAR_USERS:
-      return { ...state, users: null };
+      sessionStorage.removeItem('accessToken');
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('isAdmin');
+      return { ...state, users: null, user: null };
     case UPDATE_SUCCESS:
       return {
         ...state,
