@@ -16,13 +16,12 @@ const Products: React.FC = () => {
 
   const { shoes } = useSelector((state: any) => state.shoesReducer);
   const { user } = useSelector((state: any) => state.userReducer);
-  console.log(user);
 
   return loading ? (
     <CircularProgress />
   ) : (
     <React.Fragment>
-      {!!user.isAdmin && (
+      {!!user?.isAdmin && (
         <Button color='primary' variant='contained' sx={{ padding: '5px', marginBottom: '12px' }}>
           Add Sneaker
         </Button>

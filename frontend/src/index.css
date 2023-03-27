@@ -523,6 +523,7 @@ textarea {
   font-weight: 400;
 }
 
-.user_textfield > .MuiInputBase-root > input {
+.user_textfield > .MuiInputBase-root > input,
+.user_textfield > .MuiInputBase-root > textarea {
   height: auto !important;
 }

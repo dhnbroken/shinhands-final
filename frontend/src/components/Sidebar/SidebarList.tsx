@@ -61,7 +61,7 @@ const SidebarList = () => {
           </ListItemButton>
         </Link>
       </ListItem>
-      {!!isAdmin && (
+      {isAdmin && isAdmin === 'true' && (
         <React.Fragment>
           <Box className='sidebar_sub'>
             <Typography variant='h6'>Manager</Typography>
@@ -92,6 +92,27 @@ const SidebarList = () => {
                 <ShopOutlined />
               </ListItemIcon>
               <ListItemText>Products</ListItemText>
+            </ListItemButton>
+          </ListItem>
+        </React.Fragment>
+      )}
+      {isAdmin && isAdmin === 'false' && (
+        <React.Fragment>
+          <Box className='sidebar_sub'>
+            <Typography variant='h6'>Shop</Typography>
+          </Box>
+          <ListItem disablePadding>
+            <ListItemButton
+              selected={selectedIndex === 5}
+              onClick={(event) => {
+                handleListItemClick(event, 5);
+                navigate('/sneaker');
+              }}
+            >
+              <ListItemIcon>
+                <ShopOutlined />
+              </ListItemIcon>
+              <ListItemText>Sneaker</ListItemText>
             </ListItemButton>
           </ListItem>
         </React.Fragment>

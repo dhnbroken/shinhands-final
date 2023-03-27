@@ -1,3 +1,4 @@
+import EditProduct from '~/components/EditProduct/EditProduct';
 import Home from '~/pages/Home/Home';
 import Login from '~/pages/Login/Login';
 import Products from '~/pages/Products/Products';
@@ -8,10 +9,14 @@ import UserInfo from '~/pages/UserInfo/UserInfo';
 const publicRoutes = [
   { path: '/', component: Home },
   { path: '/user/:id', component: UserInfo },
-  { path: '/products', component: Products },
+  { path: '/sneaker', component: Products },
 ];
 
-const adminRoute = [{ path: '/user', component: User }];
+const adminRoute = [
+  { path: '/user', component: User },
+  { path: '/products', component: Products },
+  { path: '/products/:id', component: EditProduct },
+];
 
 const authRoutes = [
   { path: '/login', component: Login },

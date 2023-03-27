@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Card, Link, Typography, Stack, styled } from '@mui/material';
 import { ISneakerData } from '~/store/interface';
+import { useNavigate } from 'react-router-dom';
 
 const StyledProductImg = styled('img')({
   top: 0,
@@ -16,8 +17,9 @@ interface Props {
 
 const ProductCard: React.FC<Props> = (props) => {
   const { shoes } = props;
+  const navigate = useNavigate();
   return (
-    <Card>
+    <Card onClick={() => navigate(`/products/${shoes?._id}`)}>
       <Box sx={{ pt: '100%', position: 'relative' }}>
         <StyledProductImg src={`${import.meta.env.VITE_PUBLIC_IMAGE_URL}/${shoes?.image}`} />
       </Box>
