@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Grid, CircularProgress } from '@mui/material';
+import { Grid, CircularProgress, Button } from '@mui/material';
 import { useAppDispatch } from '~/redux/hooks';
 import { useSelector } from 'react-redux';
 import { getAllShoes } from '~/redux/actions/shoes';
@@ -15,18 +15,27 @@ const Products: React.FC = () => {
   }, [loading]);
 
   const { shoes } = useSelector((state: any) => state.shoesReducer);
+  const { user } = useSelector((state: any) => state.userReducer);
+  console.log(user);
 
   return loading ? (
     <CircularProgress />
   ) : (
-    <Grid container spacing={3}>
-      {shoes &&
-        shoes.map((shoes: ISneakerData, index: number) => (
-          <Grid key={index} item xs={12} sm={6} md={3}>
-            <ProductCard shoes={shoes} />
-          </Grid>
-        ))}
-    </Grid>
+    <React.Fragment>
+      {!!user.isAdmin && (
+        <Button color='primary' variant='contained' sx={{ padding: '5px', marginBottom: '12px' }}>
+          Add Sneaker
+        </Button>
+      )}
+      <Grid container spacing={3}>
+        {shoes &&
+          shoes.map((shoes: ISneakerData, index: number) => (
+            <Grid key={index} item xs={12} sm={6} md={3}>
+              <ProductCard shoes={shoes} />
+            </Grid>
+          ))}
+      </Grid>
+    </React.Fragment>
   );
 };
 

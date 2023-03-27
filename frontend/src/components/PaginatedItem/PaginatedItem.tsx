@@ -5,7 +5,7 @@ import { GlobalContextProvider } from '~/Context/GlobalContext';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditModal from '../EditModal/EditModal';
-import { deleteUser, getUserInfo } from '~/API/user';
+import { deleteUser } from '~/API/user';
 import EditIcon from '@mui/icons-material/Edit';
 import { signout } from '~/API/auth';
 import { CircularProgress } from '@mui/material';
@@ -40,16 +40,6 @@ export default function PaginatedItems({ loadingComponent }: any) {
       }
       await deleteUser(accessToken, userId);
       setLoading(true);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const getUser = async (accessToken: string | null, id: string | null) => {
-    try {
-      const res = await getUserInfo(accessToken, id);
-      setUserInfo(res);
-      setLoading(false);
     } catch (err) {
       console.error(err);
     }

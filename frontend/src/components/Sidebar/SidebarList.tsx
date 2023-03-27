@@ -14,17 +14,21 @@ import {
   LoginOutlined,
   LogoutOutlined,
   ProfileOutlined,
+  ShopOutlined,
+  TeamOutlined,
 } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GlobalContextProvider } from '~/Context/GlobalContext';
 import { useAppDispatch } from '~/redux/hooks';
 import { logout } from '~/redux/actions/auth';
 
 const SidebarList = () => {
   const { setLoading } = useContext(GlobalContextProvider);
+  const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = useState(0);
-  // const [accessToken, setAccessToken] = useState(sessionStorage.getItem('accessToken'));
+
   const accessToken = sessionStorage.getItem('accessToken');
+  const isAdmin = sessionStorage.getItem('isAdmin');
 
   const handleListItemClick = (
     _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -57,6 +61,41 @@ const SidebarList = () => {
           </ListItemButton>
         </Link>
       </ListItem>
+      {!!isAdmin && (
+        <React.Fragment>
+          <Box className='sidebar_sub'>
+            <Typography variant='h6'>Manager</Typography>
+          </Box>
+          <ListItem disablePadding>
+            <ListItemButton
+              selected={selectedIndex === 4}
+              onClick={(event) => {
+                handleListItemClick(event, 4);
+                navigate('/user');
+              }}
+            >
+              <ListItemIcon>
+                <TeamOutlined />
+              </ListItemIcon>
+              <ListItemText>User</ListItemText>
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton
+              selected={selectedIndex === 5}
+              onClick={(event) => {
+                handleListItemClick(event, 5);
+                navigate('/products');
+              }}
+            >
+              <ListItemIcon>
+                <ShopOutlined />
+              </ListItemIcon>
+              <ListItemText>Products</ListItemText>
+            </ListItemButton>
+          </ListItem>
+        </React.Fragment>
+      )}
       <Box className='sidebar_sub'>
         <Typography variant='h6'>Authentication</Typography>
       </Box>
