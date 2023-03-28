@@ -29,8 +29,11 @@ export interface IUser {
 
 export interface ISneakerData {
   _id?: string;
-  name: string;
-  price: number;
-  image: string;
-  description: string;
+  name?: string;
+  price?: number;
+  image?: string;
+  description?: string;
+  salePercents: number;
+  category?: string;
+  brands?: string;
 }

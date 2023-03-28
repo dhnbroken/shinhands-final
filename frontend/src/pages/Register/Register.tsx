@@ -80,7 +80,7 @@ const Register: React.FC = () => {
         await dispatch(signup(data.username, data.password, data.email));
         navigate('/login');
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     }
     resetField('username');

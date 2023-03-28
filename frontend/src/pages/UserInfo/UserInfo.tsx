@@ -31,11 +31,7 @@ const UserInfo = () => {
   const [avatar, setAvatar] = useState<any>();
   const accessToken = sessionStorage.getItem('accessToken');
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<IUser>();
+  const { handleSubmit, register } = useForm<IUser>();
 
   React.useEffect(() => {
     setLoading(true);
@@ -54,9 +50,8 @@ const UserInfo = () => {
     }
   };
   const formSubmitHandler: SubmitHandler<IUser> = (data: IUser) => {
-    console.log(data);
     if (data) {
-      const updateData: IUser = {
+      let updateData: IUser = {
         firstname: data.firstname,
         lastname: data.lastname,
         phoneNumber: data.phoneNumber,
@@ -74,26 +69,19 @@ const UserInfo = () => {
         try {
           axios.post('http://localhost:8000/upload/', imageData);
         } catch (err) {
-          console.log(err);
+          console.error(err);
         }
 
-        const updateDataWithAvatar = {
+        updateData = {
           ...updateData,
           avatar: fileName,
         };
-
-        !!accessToken &&
-          !!user._id &&
-          dispatch(updateUser(updateDataWithAvatar, accessToken, user._id)).then(() => {
-            setLoading(true);
-          });
-      } else {
-        !!accessToken &&
-          !!user._id &&
-          dispatch(updateUser(updateData, accessToken, user._id)).then(() => {
-            setLoading(true);
-          });
       }
+      !!accessToken &&
+        !!user._id &&
+        dispatch(updateUser(updateData, accessToken, user._id)).then(() => {
+          setLoading(true);
+        });
     }
   };
   return loading ? (

@@ -6,7 +6,9 @@ const shoesSchema = mongoose.Schema(
     price: { type: Number, required: true },
     image: { type: String, required: true },
     description: { type: String, required: true },
-    salePercents: { type: Number }
+    salePercents: { type: Number },
+    brands: String,
+    category: String
   },
   {
     timestamps: true

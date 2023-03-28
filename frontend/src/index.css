@@ -527,3 +527,11 @@ textarea {
 .user_textfield > .MuiInputBase-root > textarea {
   height: auto !important;
 }
+
+.object_fit_contain {
+  object-fit: contain !important;
+}
+
+.mh_282 {
+  max-height: 282px !important;
+}

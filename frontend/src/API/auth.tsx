@@ -13,7 +13,6 @@ export const signin = async ({ username, password }: TLoginData) => {
         sessionStorage.setItem('userId', res.data._id);
         sessionStorage.setItem('isAdmin', res.data.isAdmin);
       }
-      console.log(res.data);
       return res.data;
     })
     .catch((err) => {

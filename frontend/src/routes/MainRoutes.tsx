@@ -1,13 +1,22 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import DefaultLayout from '~/layout/DefaultLayout';
+import Home from '~/pages/Home/Home';
 import AuthRoute from './AuthRoute';
+import CoreRoute from './CoreRoute';
 import ProtectedRoute from './ProtectedRouted';
 import { publicRoutes, authRoutes, adminRoute } from './routes';
 
 const MainRoutes: React.FC = () => {
   return (
     <Routes>
+      <Route
+        path='/'
+        element={
+          <CoreRoute>
+            <Home />
+          </CoreRoute>
+        }
+      />
       {publicRoutes.map((route, index) => {
         const Page = route.component;
         return (
@@ -15,9 +24,9 @@ const MainRoutes: React.FC = () => {
             key={index}
             path={route.path}
             element={
-              <DefaultLayout>
+              <CoreRoute>
                 <Page />
-              </DefaultLayout>
+              </CoreRoute>
             }
           />
         );

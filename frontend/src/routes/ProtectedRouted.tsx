@@ -3,7 +3,6 @@ import DefaultLayout from '~/layout/DefaultLayout';
 
 const ProtectedRoute = ({ children }: any) => {
   const isAdmin = sessionStorage.getItem('isAdmin');
-  console.log(isAdmin);
   if (isAdmin === 'false') {
     return <Navigate to='/' replace />;
   }

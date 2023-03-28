@@ -41,6 +41,7 @@ const SidebarList = () => {
   const handleLogout = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     handleListItemClick(e, 3);
     dispatch(logout(accessToken)).then(() => setLoading(true));
+    window.location.reload();
   };
 
   return (
@@ -106,7 +107,7 @@ const SidebarList = () => {
               selected={selectedIndex === 5}
               onClick={(event) => {
                 handleListItemClick(event, 5);
-                navigate('/sneaker');
+                navigate('/shop/sneaker');
               }}
             >
               <ListItemIcon>
