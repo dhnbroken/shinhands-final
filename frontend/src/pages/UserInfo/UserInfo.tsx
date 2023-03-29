@@ -1,20 +1,9 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
-  CircularProgress,
-} from '@mui/material';
+import { Box, Button, Card, CardContent, Grid, Paper, TextField, Typography } from '@mui/material';
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { GlobalContextProvider } from '~/Context/GlobalContext';
 import { updateUser } from '~/redux/actions/userActions';
 import { getUserInfo } from '~/redux/actions/userActions';
 import { useAppDispatch } from '~/redux/hooks';
@@ -22,9 +11,8 @@ import { IUser } from '~/store/interface';
 
 import './UserInfo.scss';
 
-const UserInfo = () => {
+const UserInfo: React.FC = () => {
   const { user } = useSelector((state: any) => state.userReducer);
-  const { loading, setLoading } = useContext(GlobalContextProvider);
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const [fileChosen, setFileChosen] = useState('');
@@ -32,15 +20,6 @@ const UserInfo = () => {
   const accessToken = sessionStorage.getItem('accessToken');
 
   const { handleSubmit, register } = useForm<IUser>();
-
-  React.useEffect(() => {
-    setLoading(true);
-    dispatch(getUserInfo(accessToken, id as string)).then(() => setLoading(false));
-  }, []);
-
-  React.useEffect(() => {
-    dispatch(getUserInfo(accessToken, id as string)).then(() => setLoading(false));
-  }, [loading]);
 
   const onImageChange = (event: any) => {
     if (event.target.files && event.target.files[0]) {
@@ -79,14 +58,12 @@ const UserInfo = () => {
       }
       !!accessToken &&
         !!user._id &&
-        dispatch(updateUser(updateData, accessToken, user._id)).then(() => {
-          setLoading(true);
-        });
+        dispatch(updateUser(updateData, accessToken, user._id)).then(() =>
+          dispatch(getUserInfo(accessToken, id as string)),
+        );
     }
   };
-  return loading ? (
-    <CircularProgress />
-  ) : (
+  return (
     <form action='' onSubmit={handleSubmit(formSubmitHandler)} encType='multipart/form-data'>
       {!!user && (
         <Box
@@ -96,7 +73,6 @@ const UserInfo = () => {
             '& > :not(style)': {
               m: 1,
               width: '100%',
-              // height: '80vh',
             },
           }}
         >

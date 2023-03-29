@@ -30,13 +30,12 @@ const User: React.FC = () => {
 
   useEffect(() => {
     setUsers(
-      users?.map((user: IUser) => {
+      users?.map((user: IUser, index: number) => {
         return {
-          id: user._id,
-          username: user.username,
-          email: user.email,
+          ...user,
           createdAt: moment(user.createdAt).format('DD/MM/YYYY'),
-          isAdmin: user?.isAdmin ? 'Yes' : 'No',
+          id: user._id,
+          index: index + 1,
         };
       }),
     );

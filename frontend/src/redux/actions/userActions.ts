@@ -33,3 +33,13 @@ export const updateUser =
       console.error(err);
     }
   };
+
+export const updateIsAdmin =
+  (data: IUser, accessToken: string | null, userId: string | null) => async (dispatch: any) => {
+    try {
+      const res = await userApi.updateIsAdmin(data, accessToken, userId);
+      dispatch({ type: 'UPDATE_ADMIN_SUCCESS', data: res });
+    } catch (err) {
+      console.error(err);
+    }
+  };

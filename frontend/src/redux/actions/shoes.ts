@@ -42,3 +42,13 @@ export const updateShoes =
       console.error(err);
     }
   };
+
+export const deleteShoes =
+  (accessToken: string | null, id: string | undefined) => async (dispatch: any) => {
+    try {
+      await shoesApi.deleteShoes(accessToken, id);
+      dispatch({ type: 'DELETE_SNEAKER_SUCCESS' });
+    } catch (err) {
+      console.error(err);
+    }
+  };

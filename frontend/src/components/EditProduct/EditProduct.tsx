@@ -4,14 +4,13 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { addShoes, getShoesData, updateShoes } from '~/redux/actions/shoes';
+import { addShoes, deleteShoes, getShoesData, updateShoes } from '~/redux/actions/shoes';
 import { useAppDispatch } from '~/redux/hooks';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import axios from 'axios';
 import { ISneakerData } from '~/store/interface';
-import { accessToken } from '~/utils/getCookie';
 
 const schema = yup
   .object({
@@ -30,12 +29,10 @@ const EditProduct: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { shoesInfo } = useSelector((state: any) => state.shoesReducer);
-
+  const accessToken = sessionStorage.getItem('accessToken');
   const { state } = useLocation();
 
   const [isEdit, setIsEdit] = useState(false);
-
-  console.log(state?.shoes);
 
   useEffect(() => {
     dispatch(getShoesData(id));
@@ -63,7 +60,7 @@ const EditProduct: React.FC = () => {
     setCategory(event.target.value as string);
   };
 
-  const onImageChange = (event: any) => {
+  const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const img = event.target.files[0];
       setFileChosen(URL.createObjectURL(img));
@@ -149,7 +146,7 @@ const EditProduct: React.FC = () => {
             <Grid item xs={6}>
               <Typography variant='h6'>Product Image</Typography>
               <img
-                src={fileChosen || import.meta.env.VITE_PUBLIC_IMAGE_URL + shoesInfo.image}
+                src={fileChosen || import.meta.env.VITE_PUBLIC_IMAGE_URL + state?.shoes?.image}
                 alt=''
                 width='100%'
                 height='100%'
@@ -218,6 +215,18 @@ const EditProduct: React.FC = () => {
             </Grid>
           </Grid>
           <Grid item xs={12} textAlign='end'>
+            <Button
+              sx={{ marginRight: '10px' }}
+              variant='contained'
+              color='error'
+              onClick={() => {
+                dispatch(deleteShoes(accessToken, state?.shoes._id)).then(() =>
+                  navigate('/products'),
+                );
+              }}
+            >
+              Delete
+            </Button>
             <Button variant='contained' type='submit'>
               {isEdit ? 'Save' : 'Add'}
             </Button>

@@ -6,6 +6,6 @@ router.post('/', verifyTokenAndAdmin, shoesController.createShoes);
 router.get('/', shoesController.getAllShoes);
 router.get('/:id', shoesController.getShoes);
 router.put('/:id', verifyTokenAndAdmin, shoesController.updateShoes);
-router.delete('/:id', shoesController.deleteShoes);
+router.delete('/:id', verifyTokenAndAdmin, shoesController.deleteShoes);
 
 module.exports = router;

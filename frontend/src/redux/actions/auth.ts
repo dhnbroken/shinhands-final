@@ -77,10 +77,6 @@ export const login = (username: string, password: string) => async (dispatch: an
   );
 };
 
-// export const update = () => {dispatch: any} => {
-//   updateUser
-// }
-
 export const logout = (accessToken: string | null) => (dispatch: any) => {
   signout(accessToken);
   dispatch({

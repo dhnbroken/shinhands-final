@@ -22,7 +22,6 @@ import * as yup from 'yup';
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import { login } from '~/redux/actions/auth';
 import { useAppDispatch } from '~/redux/hooks';
-import { useSelector } from 'react-redux';
 
 const schema = yup
   .object({
@@ -61,7 +60,7 @@ const Login: React.FC = () => {
       await dispatch(login(data.username, data.password));
       navigate('/');
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     resetField('username');
     resetField('password');

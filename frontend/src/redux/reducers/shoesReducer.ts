@@ -6,6 +6,7 @@ import {
   GETSNEAKER_DETAILS,
   UPDATE_SNEAKER_SUCCESS,
   ADD_SNEAKER_SUCCESS,
+  DELETE_SNEAKER_SUCCESS,
 } from './../actions/productTypes';
 
 const shoesInfoInit: ISneakerData = {
@@ -36,6 +37,8 @@ export default function (state = initialState, action: any) {
       return { ...state, shoesInfo: data };
     case ADD_SNEAKER_SUCCESS:
       return { ...state, shoesInfo: data };
+    case DELETE_SNEAKER_SUCCESS:
+      return { ...state };
     default:
       return state;
   }

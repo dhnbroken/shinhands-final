@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Card, Link, Typography, Stack, styled } from '@mui/material';
 import { ISneakerData } from '~/store/interface';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const StyledProductImg = styled('img')({
   top: 0,
@@ -18,8 +18,17 @@ interface Props {
 const ProductCard: React.FC<Props> = (props) => {
   const { shoes } = props;
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   return (
-    <Card onClick={() => navigate(`/products/${shoes?._id}`, { state: { shoes } })}>
+    <Card
+      sx={{ height: '400px', cursor: 'pointer' }}
+      onClick={() => {
+        pathname === '/products'
+          ? navigate(`/products/${shoes?._id}`, { state: { shoes } })
+          : navigate(`/shop/sneaker/${shoes?._id}`, { state: { shoes } });
+      }}
+    >
       <Box sx={{ pt: '100%', position: 'relative' }}>
         <StyledProductImg src={`${import.meta.env.VITE_PUBLIC_IMAGE_URL}/${shoes?.image}`} />
       </Box>

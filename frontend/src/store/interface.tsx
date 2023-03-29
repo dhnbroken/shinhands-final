@@ -29,7 +29,7 @@ export interface IUser {
 
 export interface ISneakerData {
   _id?: string;
-  name?: string;
+  name: string;
   price?: number;
   image?: string;
   description?: string;

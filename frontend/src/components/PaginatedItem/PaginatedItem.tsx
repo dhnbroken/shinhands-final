@@ -8,10 +8,12 @@ import EditModal from '../EditModal/EditModal';
 import { deleteUser } from '~/API/user';
 import EditIcon from '@mui/icons-material/Edit';
 import { signout } from '~/API/auth';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Switch } from '@mui/material';
 import { IUser } from '~/store/interface';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '~/redux/hooks';
+import { updateIsAdmin } from '~/redux/actions/userActions';
 
 export default function PaginatedItems({ loadingComponent }: any) {
   const { setUsers, users, loading, setLoading, setUser } = React.useContext(GlobalContextProvider);
@@ -51,13 +53,16 @@ export default function PaginatedItems({ loadingComponent }: any) {
     setOpen(true);
     navigate(`/user/${params.id}`);
   };
+  const dispatch = useAppDispatch();
 
+  const handleChange = (params: any) => {
+    dispatch(updateIsAdmin({ ...params.row, isAdmin: !params.isAdmin }, accessToken, params.id));
+  };
   const columns: GridColDef[] = [
-    { field: 'id', hideable: true },
+    { field: 'index', headerName: 'Index', flex: 1, hideable: false },
     {
       field: 'username',
       headerName: 'Username',
-      // width: 200,
       flex: 1,
     },
     {
@@ -65,7 +70,20 @@ export default function PaginatedItems({ loadingComponent }: any) {
       headerName: 'Email',
       flex: 2,
     },
-    { field: 'isAdmin', headerName: 'Admin', flex: 1 },
+    {
+      field: 'isAdmin',
+      headerName: 'Admin',
+      flex: 1,
+      type: 'actions',
+      getActions: (params) => [
+        <Switch
+          key={params.id}
+          defaultChecked={params.row.isAdmin}
+          // checked={params.row.isAdmin}
+          onChange={() => handleChange(params.row)}
+        />,
+      ],
+    },
     {
       field: 'createdAt',
       headerName: 'Created At',

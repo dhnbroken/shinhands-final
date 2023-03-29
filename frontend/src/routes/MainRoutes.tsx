@@ -1,8 +1,8 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import UserLayout from '~/layout/UserLayout';
 import Home from '~/pages/Home/Home';
 import AuthRoute from './AuthRoute';
-import CoreRoute from './CoreRoute';
 import ProtectedRoute from './ProtectedRouted';
 import { publicRoutes, authRoutes, adminRoute } from './routes';
 
@@ -12,9 +12,9 @@ const MainRoutes: React.FC = () => {
       <Route
         path='/'
         element={
-          <CoreRoute>
+          <UserLayout>
             <Home />
-          </CoreRoute>
+          </UserLayout>
         }
       />
       {publicRoutes.map((route, index) => {
@@ -24,9 +24,9 @@ const MainRoutes: React.FC = () => {
             key={index}
             path={route.path}
             element={
-              <CoreRoute>
+              <UserLayout>
                 <Page />
-              </CoreRoute>
+              </UserLayout>
             }
           />
         );
