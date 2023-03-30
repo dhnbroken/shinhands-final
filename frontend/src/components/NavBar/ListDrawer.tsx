@@ -1,33 +1,31 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from '@mui/material';
-
+import React from 'react';
+import { Divider } from '@mui/material';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { useState } from 'react';
+import { useAppDispatch } from '~/redux/hooks';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   DashboardOutlined,
   LoginOutlined,
   LogoutOutlined,
   ProfileOutlined,
-  ShopOutlined,
+  ShoppingOutlined,
   TeamOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '~/redux/hooks';
 import { logout } from '~/redux/actions/auth';
 
-const SidebarList = () => {
-  const navigate = useNavigate();
+const ListDrawer = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const accessToken = sessionStorage.getItem('accessToken');
+  const userId = sessionStorage.getItem('userId');
   const isAdmin = sessionStorage.getItem('isAdmin');
-
   const handleListItemClick = (
     _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number,
@@ -35,35 +33,42 @@ const SidebarList = () => {
     setSelectedIndex(index);
   };
 
-  const dispatch = useAppDispatch();
   const handleLogout = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     handleListItemClick(e, 3);
     dispatch(logout(accessToken)).then(() => navigate('/'));
   };
-
   return (
     <List>
-      <Box className='sidebar_sub'>
-        <Typography variant='h6'>Navigation</Typography>
-      </Box>
       <ListItem disablePadding>
-        <Link to='/dashboard' className='w-100'>
+        <Link to={`/user/${userId}`} className='w-100'>
           <ListItemButton
-            selected={selectedIndex === 0}
-            onClick={(event) => handleListItemClick(event, 0)}
+            selected={selectedIndex === 1}
+            onClick={(event) => handleListItemClick(event, 1)}
           >
             <ListItemIcon>
-              <DashboardOutlined />
+              <UserOutlined />
             </ListItemIcon>
-            <ListItemText>Dashboard</ListItemText>
+            <ListItemText>Profile</ListItemText>
           </ListItemButton>
         </Link>
       </ListItem>
-      {isAdmin && isAdmin === 'true' && (
+      <Divider />
+
+      {isAdmin === 'true' && (
         <React.Fragment>
-          <Box className='sidebar_sub'>
-            <Typography variant='h6'>Manager</Typography>
-          </Box>
+          <ListItem disablePadding>
+            <Link to='/dashboard' className='w-100'>
+              <ListItemButton
+                selected={selectedIndex === 0}
+                onClick={(event) => handleListItemClick(event, 0)}
+              >
+                <ListItemIcon>
+                  <DashboardOutlined />
+                </ListItemIcon>
+                <ListItemText>Dashboard</ListItemText>
+              </ListItemButton>
+            </Link>
+          </ListItem>
           <ListItem disablePadding>
             <ListItemButton
               selected={selectedIndex === 4}
@@ -87,37 +92,31 @@ const SidebarList = () => {
               }}
             >
               <ListItemIcon>
-                <ShopOutlined />
+                <ShoppingOutlined />
               </ListItemIcon>
               <ListItemText>Products</ListItemText>
             </ListItemButton>
           </ListItem>
         </React.Fragment>
       )}
+      <Divider />
 
-      <React.Fragment>
-        <Box className='sidebar_sub'>
-          <Typography variant='h6'>Shop</Typography>
-        </Box>
-        <ListItem disablePadding>
-          <ListItemButton
-            selected={selectedIndex === 6}
-            onClick={(event) => {
-              handleListItemClick(event, 6);
-              navigate('/shop/sneaker');
-            }}
-          >
-            <ListItemIcon>
-              <ShopOutlined />
-            </ListItemIcon>
-            <ListItemText>Sneaker</ListItemText>
-          </ListItemButton>
-        </ListItem>
-      </React.Fragment>
+      <ListItem disablePadding>
+        <ListItemButton
+          selected={selectedIndex === 6}
+          onClick={(event) => {
+            handleListItemClick(event, 6);
+            navigate('/shop/sneaker');
+          }}
+        >
+          <ListItemIcon>
+            <ShoppingOutlined />
+          </ListItemIcon>
+          <ListItemText>{isAdmin === 'true' ? 'Shop' : 'Sneaker'}</ListItemText>
+        </ListItemButton>
+      </ListItem>
+      <Divider />
 
-      <Box className='sidebar_sub'>
-        <Typography variant='h6'>Authentication</Typography>
-      </Box>
       {!accessToken ? (
         <React.Fragment>
           <ListItem disablePadding>
@@ -161,4 +160,4 @@ const SidebarList = () => {
   );
 };
 
-export default SidebarList;
+export default ListDrawer;

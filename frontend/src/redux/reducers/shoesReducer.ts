@@ -26,7 +26,7 @@ export default function (state = initialState, action: any) {
 
   switch (type) {
     case GETSHOES_START:
-      return { ...state };
+      return { ...state, isLoggedIn: false, shoes: null, shoesInfo: shoesInfoInit };
     case GETSHOES_SUCCESS:
       return { ...state, shoes: data };
     case GETSHOES_FAIL:

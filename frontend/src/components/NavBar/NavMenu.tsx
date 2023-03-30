@@ -7,8 +7,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +14,7 @@ import { useAppDispatch } from '~/redux/hooks';
 import { logout } from '~/redux/actions/auth';
 import { Login } from '@mui/icons-material';
 import { Typography } from '@mui/material';
-import { DashOutlined } from '@ant-design/icons';
+import { DashboardOutlined } from '@ant-design/icons';
 
 export default function NavMenu() {
   const navigate = useNavigate();
@@ -34,7 +32,7 @@ export default function NavMenu() {
   };
   return (
     <React.Fragment>
-      <Box>
+      <Box display={{ xs: 'none', md: 'block' }}>
         <Tooltip title='Account settings'>
           <IconButton
             onClick={handleClick}
@@ -110,7 +108,7 @@ export default function NavMenu() {
             }}
           >
             <ListItemIcon>
-              <DashOutlined />
+              <DashboardOutlined />
             </ListItemIcon>
             Dashboard
           </MenuItem>

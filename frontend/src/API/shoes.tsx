@@ -29,7 +29,7 @@ export const updateShoesData = async (
 };
 
 export const deleteShoes = async (accessToken: string | null, id: string | undefined) => {
-  return await axiosAction.delete(`/v1/shoes/${id}`, {
+  return await axiosInstance.delete(`/v1/shoes/${id}`, {
     headers: { token: `Bearer ${accessToken}` },
   });
 };

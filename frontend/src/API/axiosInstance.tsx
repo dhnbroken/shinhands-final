@@ -4,6 +4,7 @@ import { toastConfig } from '~/utils/toastConfig';
 
 export const axiosInstance = axios.create({
   baseURL: 'http://localhost:8000/',
+  // https://shinhan-final-api.onrender.com/
   timeout: 30000,
   withCredentials: true,
   headers: {

@@ -2,7 +2,6 @@ import { Box, Button, Typography, MenuItem, Grid, TextField, FormControl } from 
 import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { addShoes, deleteShoes, getShoesData, updateShoes } from '~/redux/actions/shoes';
 import { useAppDispatch } from '~/redux/hooks';
@@ -11,6 +10,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import axios from 'axios';
 import { ISneakerData } from '~/store/interface';
+import { swalConfig } from '~/utils/swalConfig';
+import Swal from 'sweetalert2';
 
 const schema = yup
   .object({
@@ -28,15 +29,10 @@ const EditProduct: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { shoesInfo } = useSelector((state: any) => state.shoesReducer);
   const accessToken = sessionStorage.getItem('accessToken');
   const { state } = useLocation();
 
   const [isEdit, setIsEdit] = useState(false);
-
-  useEffect(() => {
-    dispatch(getShoesData(id));
-  }, []);
 
   useEffect(() => {
     if (id === undefined) {
@@ -101,7 +97,7 @@ const EditProduct: React.FC = () => {
           image: fileName,
         };
       } else {
-        sneakerData = { ...sneakerData, image: shoesInfo?.image };
+        sneakerData = { ...sneakerData, image: state?.shoes?.image };
       }
       if (!isEdit) {
         dispatch(addShoes(sneakerData, accessToken)).then(() => navigate('/products'));
@@ -111,13 +107,22 @@ const EditProduct: React.FC = () => {
     }
   };
 
-  return !shoesInfo ? (
+  const handleDeleteShoes = () => {
+    Swal.fire(swalConfig).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteShoes(accessToken, state?.shoes._id))
+          .then(() => navigate('/products'))
+          .then(() => Swal.fire('Deleted!', 'Your file has been deleted.', 'success'));
+      }
+    });
+  };
+  return !state?.shoes ? (
     <CircularProgress />
   ) : (
     <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data'>
-      <Box marginTop={2} maxHeight='200px'>
+      <Box marginTop={2} marginBottom={0} sx={{ maxHeight: { md: '200px' } }}>
         <Grid container spacing={3}>
-          <Grid item xs={6} container>
+          <Grid item xs={12} md={6} container>
             <Grid item xs={12}>
               <Typography variant='h6'>Product Name</Typography>
               <TextField
@@ -142,8 +147,8 @@ const EditProduct: React.FC = () => {
               <Typography color='error'>{errors.description?.message}</Typography>
             </Grid>
           </Grid>
-          <Grid item xs={6} container spacing={3}>
-            <Grid item xs={6}>
+          <Grid item xs={12} md={6} container spacing={3}>
+            <Grid item xs={12} md={6}>
               <Typography variant='h6'>Product Image</Typography>
               <img
                 src={fileChosen || import.meta.env.VITE_PUBLIC_IMAGE_URL + state?.shoes?.image}
@@ -153,14 +158,14 @@ const EditProduct: React.FC = () => {
                 className='object_fit_contain mh_282'
               />
             </Grid>
-            <Grid item xs={6} alignSelf='center'>
+            <Grid item xs={12} md={6} alignSelf='center'>
               <Button variant='contained' component='label'>
                 Upload
                 <input hidden accept='image/*' multiple type='file' onChange={onImageChange} />
               </Button>
             </Grid>
-            <Grid item xs={12} container spacing={2}>
-              <Grid item xs={6}>
+            <Grid item xs={12} container spacing={2} alignItems='end'>
+              <Grid item xs={12} md={6}>
                 <Typography variant='h6'>Price</Typography>
                 <TextField
                   fullWidth
@@ -171,7 +176,7 @@ const EditProduct: React.FC = () => {
                   {...register('price')}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <Typography variant='h6'>Sale Percent</Typography>
                 <TextField
                   fullWidth
@@ -182,7 +187,7 @@ const EditProduct: React.FC = () => {
                   {...register('salePercents')}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <Typography variant='h6'>Category</Typography>
                 <FormControl fullWidth>
                   <Select
@@ -196,7 +201,7 @@ const EditProduct: React.FC = () => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <Typography variant='h6'>Brands</Typography>
                 <FormControl fullWidth>
                   <Select
@@ -215,18 +220,18 @@ const EditProduct: React.FC = () => {
             </Grid>
           </Grid>
           <Grid item xs={12} textAlign='end'>
-            <Button
-              sx={{ marginRight: '10px' }}
-              variant='contained'
-              color='error'
-              onClick={() => {
-                dispatch(deleteShoes(accessToken, state?.shoes._id)).then(() =>
-                  navigate('/products'),
-                );
-              }}
-            >
-              Delete
-            </Button>
+            {isEdit && (
+              <Button
+                sx={{ marginRight: '10px' }}
+                variant='contained'
+                color='error'
+                onClick={() => {
+                  handleDeleteShoes();
+                }}
+              >
+                Delete
+              </Button>
+            )}
             <Button variant='contained' type='submit'>
               {isEdit ? 'Save' : 'Add'}
             </Button>

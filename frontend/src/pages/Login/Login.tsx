@@ -68,19 +68,26 @@ const Login: React.FC = () => {
 
   return (
     <Box>
-      <Paper elevation={3} sx={{ maxWidth: { xs: '475px', md: '400px' }, width: '475px' }}>
+      <Paper elevation={3} sx={{ maxWidth: { xs: '320px', md: '400px' }, width: { md: '475px' } }}>
         <Box padding='40px'>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Stack alignItems='baseline' flexDirection='row' justifyContent='space-between'>
-                <Typography variant='h3' sx={{ fontSize: '1.5rem' }}>
+                <Typography
+                  variant='h3'
+                  sx={{
+                    fontSize: '1.5rem',
+                    width: { xs: '100%', md: '50%' },
+                    textAlign: { xs: 'center', md: 'left' },
+                  }}
+                >
                   Login
                 </Typography>
                 <Typography
                   component={Link}
                   to='/register'
                   variant='body1'
-                  sx={{ textDecoration: 'none' }}
+                  sx={{ textDecoration: 'none', display: { xs: 'none', md: 'block' } }}
                   color='primary'
                 >
                   Don&apos;t have an account?
@@ -174,6 +181,26 @@ const Login: React.FC = () => {
                         }}
                       >
                         Login
+                      </Button>
+                    </motion.div>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <motion.div whileHover={{ scale: 1 }} whileTap={{ scale: 0.9 }}>
+                      <Button
+                        disableElevation
+                        fullWidth
+                        size='large'
+                        onClick={() => navigate('/register')}
+                        variant='outlined'
+                        sx={{
+                          fontSize: '0.875rem',
+                          textTransform: 'none',
+                          fontWeight: '400',
+                          display: { md: 'none' },
+                        }}
+                      >
+                        Create new account
                       </Button>
                     </motion.div>
                   </Grid>

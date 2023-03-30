@@ -47,3 +47,16 @@
 // .MuiGrid-grid-xs-6 .nav-item {
 //   justify-content: flex-end;
 // }
+
+@media (max-width: 767.98px) {
+  .user_header {
+    padding: 0;
+    justify-content: space-between;
+  }
+  .nav-item {
+    justify-content: flex-start;
+    a {
+      width: '100%';
+    }
+  }
+}

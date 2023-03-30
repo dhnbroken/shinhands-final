@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Grid,
   CircularProgress,
@@ -10,9 +10,7 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
-import { useAppDispatch } from '~/redux/hooks';
 import { useSelector } from 'react-redux';
-import { getAllShoes } from '~/redux/actions/shoes';
 import { ISneakerData } from '~/store/interface';
 import ProductCard from '~/components/ProductCard/ProductCard';
 import { GlobalContextProvider } from '~/Context/GlobalContext';
@@ -20,18 +18,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Search } from '@mui/icons-material';
 
 const Products: React.FC = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading, setLoading } = useContext(GlobalContextProvider);
+  const { loading } = useContext(GlobalContextProvider);
   const { shoes } = useSelector((state: any) => state.shoesReducer);
-
-  useEffect(() => {
-    dispatch(getAllShoes());
-  }, []);
-
-  useEffect(() => {
-    dispatch(getAllShoes()).then(() => setLoading(false));
-  }, [loading]);
 
   const location = useLocation();
 
@@ -65,7 +54,7 @@ const Products: React.FC = () => {
     <React.Fragment>
       <Grid container marginBottom={2} spacing={2}>
         {location.pathname === '/products' && (
-          <Grid item xs={2}>
+          <Grid item xs={12} md={2}>
             <Button
               color='primary'
               variant='contained'
@@ -76,7 +65,7 @@ const Products: React.FC = () => {
             </Button>
           </Grid>
         )}
-        <Grid item xs={location.pathname === '/products' ? 7 : 9}>
+        <Grid item xs={12} md={location.pathname === '/products' ? 7 : 9}>
           <TextField
             className='djashjdshjad'
             variant='outlined'
@@ -97,7 +86,7 @@ const Products: React.FC = () => {
             }}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} md={3}>
           <FormControl fullWidth>
             <Select sx={{ maxHeight: '51px' }} value={sort} onChange={handleChange}>
               <MenuItem value={1}>Price: Low to high</MenuItem>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   Toolbar,
   IconButton,
@@ -14,6 +14,7 @@ import './Header.scss';
 import Avatar from '@mui/material/Avatar';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import NavDrawer from '../NavBar/NavDrawer';
 
 interface Props {
   showSidebar: boolean;
@@ -26,17 +27,22 @@ const Header: React.FC<Props> = (props) => {
   const navigate = useNavigate();
 
   return (
-    <Toolbar sx={{ borderBottom: '1px solid #f0f0f0' }}>
+    <Toolbar sx={{ borderBottom: '1px solid #f0f0f0', justifyContent: { xs: 'space-between' } }}>
       <IconButton className='header_btn' onClick={() => setShowSidebar(!showSidebar)}>
         <MenuFoldOutlined style={{ fontSize: '20px' }} />
       </IconButton>
-      <Box marginLeft='8px' width='100%' maxHeight={'35px'}>
+      <Box
+        marginLeft='8px'
+        width='100%'
+        maxHeight={'35px'}
+        sx={{ display: { xs: 'none', md: 'block' } }}
+      >
         <FormControl sx={{ maxHeight: '35px' }}>
           <TextField
             size='small'
             className='header_input_search'
             id='outlined-start-adornment'
-            sx={{ width: '25ch' }}
+            sx={{ width: { md: '25ch' } }}
             placeholder='Ctrl + K'
             InputProps={{
               startAdornment: (
@@ -48,7 +54,10 @@ const Header: React.FC<Props> = (props) => {
           />
         </FormControl>
       </Box>
-      <IconButton className='header_btn' sx={{ marginRight: '24px' }}>
+      <IconButton
+        className='header_btn'
+        sx={{ marginRight: '24px', display: { xs: 'none', md: 'block' } }}
+      >
         <BellOutlined style={{ fontSize: '20px' }} />
       </IconButton>
       <Button
@@ -69,6 +78,7 @@ const Header: React.FC<Props> = (props) => {
       >
         {user?.username}
       </Button>
+      <NavDrawer />
     </Toolbar>
   );
 };

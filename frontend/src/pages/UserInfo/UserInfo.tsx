@@ -68,17 +68,17 @@ const UserInfo: React.FC = () => {
       {!!user && (
         <Box
           sx={{
-            display: 'flex',
+            display: { xs: 'block', md: 'flex' },
             flexWrap: 'wrap',
             '& > :not(style)': {
-              m: 1,
+              m: 0,
               width: '100%',
             },
           }}
         >
           <Paper elevation={3}>
             <Grid container padding={3}>
-              <Grid item xs={5} padding={5}>
+              <Grid item xs={12} md={5} padding={5}>
                 <Card
                   sx={{
                     width: '100%',
@@ -110,9 +110,9 @@ const UserInfo: React.FC = () => {
                   </Button>
                 </Card>
               </Grid>
-              <Grid item container xs={7} padding={5} spacing={3}>
+              <Grid item container xs={12} md={5} padding={5} spacing={3}>
                 <Grid item container spacing={2} xs={12}>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       label='Firstname'
                       variant='outlined'
@@ -122,7 +122,7 @@ const UserInfo: React.FC = () => {
                       {...register('firstname')}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       size='medium'
                       variant='outlined'
@@ -146,7 +146,7 @@ const UserInfo: React.FC = () => {
                   />
                 </Grid>
                 <Grid item container spacing={2} xs={12}>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       label='Address line 1'
                       variant='outlined'
@@ -156,7 +156,7 @@ const UserInfo: React.FC = () => {
                       {...register('addressLine1')}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       size='medium'
                       variant='outlined'
@@ -167,7 +167,7 @@ const UserInfo: React.FC = () => {
                       {...register('addressLine2')}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       size='medium'
                       variant='outlined'
@@ -178,7 +178,7 @@ const UserInfo: React.FC = () => {
                       {...register('city')}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       size='medium'
                       variant='outlined'

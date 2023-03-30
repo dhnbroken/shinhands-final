@@ -40,7 +40,7 @@ export const updateIsAdmin = async (
 };
 
 export const deleteUser = async (accessToken: string | null, userId: string | null) => {
-  const res = await axiosAction.delete(`/v1/user/${userId}/delete/`, {
+  const res = await axiosInstance.delete(`/v1/user/${userId}/delete/`, {
     params: { id: userId },
     headers: { token: `Bearer ${accessToken}` },
   });

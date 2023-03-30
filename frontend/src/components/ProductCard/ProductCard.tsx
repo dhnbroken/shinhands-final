@@ -22,7 +22,7 @@ const ProductCard: React.FC<Props> = (props) => {
 
   return (
     <Card
-      sx={{ height: '400px', cursor: 'pointer' }}
+      sx={{ height: { md: '400px' }, cursor: 'pointer' }}
       onClick={() => {
         pathname === '/products'
           ? navigate(`/products/${shoes?._id}`, { state: { shoes } })
