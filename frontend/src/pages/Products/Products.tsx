@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Grid,
   CircularProgress,
@@ -20,6 +20,7 @@ import { Search } from '@mui/icons-material';
 const Products: React.FC = () => {
   const navigate = useNavigate();
   const { loading } = useContext(GlobalContextProvider);
+
   const { shoes } = useSelector((state: any) => state.shoesReducer);
 
   const location = useLocation();
@@ -28,25 +29,38 @@ const Products: React.FC = () => {
   const [query, setQuery] = useState('');
 
   const [sort, setSort] = React.useState('1');
+  const [filter, setFilter] = React.useState(shoes);
 
   const handleChange = (event: SelectChangeEvent) => {
     setSort(event.target.value as string);
     switch (Number(event.target.value)) {
       case 1:
-        shoes.sort(
-          (min: ISneakerData, max: ISneakerData) => Number(min?.price) - Number(max?.price),
+        setFilter(
+          [...filter].sort(
+            (min: ISneakerData, max: ISneakerData) => Number(min?.price) - Number(max?.price),
+          ),
         );
         break;
       case 2:
-        shoes.sort(
-          (min: ISneakerData, max: ISneakerData) => Number(max?.price) - Number(min?.price),
+        setFilter(
+          [...filter].sort(
+            (min: ISneakerData, max: ISneakerData) => Number(max?.price) - Number(min?.price),
+          ),
         );
         break;
       case 3:
-        shoes.sort((a: ISneakerData, b: ISneakerData) => a.name.localeCompare(b.name));
+        setFilter(
+          [...filter].sort((a: ISneakerData, b: ISneakerData) => a.name.localeCompare(b.name)),
+        );
+        break;
+      default:
         break;
     }
   };
+
+  useEffect(() => {
+    setFilter(shoes);
+  }, [shoes]);
 
   return loading ? (
     <CircularProgress />
@@ -97,8 +111,8 @@ const Products: React.FC = () => {
         </Grid>
       </Grid>
       <Grid container spacing={3}>
-        {shoes &&
-          shoes
+        {filter &&
+          filter
             .filter((shoes: ISneakerData) => shoes.name && shoes.name.toLowerCase().includes(query))
             .map((shoes: ISneakerData, index: number) => (
               <Grid key={index} item xs={12} sm={6} md={3}>

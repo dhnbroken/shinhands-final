@@ -7,7 +7,7 @@ import SneakerSize from './Size';
 const ProductInfo: React.FC = () => {
   const { state } = useLocation();
   const { shoes } = state;
-  console.log(shoes);
+
   return (
     <Container sx={{ width: { md: '1080px' }, margin: 'auto' }}>
       <Grid
