@@ -46,6 +46,14 @@ const userController = {
     } catch (err) {
       res.status(500).json(err);
     }
+  },
+  updateIsAdmin: async (req, res) => {
+    try {
+      await User.findByIdAndUpdate(req.params.id, req.body);
+      res.status(200).json('User updated');
+    } catch (err) {
+      res.status(500).json(err);
+    }
   }
 };
 

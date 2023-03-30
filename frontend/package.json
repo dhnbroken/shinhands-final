@@ -40,6 +40,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
     "sass": "^1.59.2",
+    "sweetalert2": "^11.7.3",
     "typescript-cookie": "^1.0.4",
     "yup": "^1.0.2"
   },

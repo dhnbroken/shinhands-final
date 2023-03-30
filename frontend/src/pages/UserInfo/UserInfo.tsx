@@ -1,20 +1,9 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
-  CircularProgress,
-} from '@mui/material';
+import { Box, Button, Card, CardContent, Grid, Paper, TextField, Typography } from '@mui/material';
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { GlobalContextProvider } from '~/Context/GlobalContext';
 import { updateUser } from '~/redux/actions/userActions';
 import { getUserInfo } from '~/redux/actions/userActions';
 import { useAppDispatch } from '~/redux/hooks';
@@ -22,29 +11,15 @@ import { IUser } from '~/store/interface';
 
 import './UserInfo.scss';
 
-const UserInfo = () => {
+const UserInfo: React.FC = () => {
   const { user } = useSelector((state: any) => state.userReducer);
-  const { loading, setLoading } = useContext(GlobalContextProvider);
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const [fileChosen, setFileChosen] = useState('');
   const [avatar, setAvatar] = useState<any>();
   const accessToken = sessionStorage.getItem('accessToken');
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<IUser>();
-
-  React.useEffect(() => {
-    setLoading(true);
-    dispatch(getUserInfo(accessToken, id as string)).then(() => setLoading(false));
-  }, []);
-
-  React.useEffect(() => {
-    dispatch(getUserInfo(accessToken, id as string)).then(() => setLoading(false));
-  }, [loading]);
+  const { handleSubmit, register } = useForm<IUser>();
 
   const onImageChange = (event: any) => {
     if (event.target.files && event.target.files[0]) {
@@ -54,9 +29,8 @@ const UserInfo = () => {
     }
   };
   const formSubmitHandler: SubmitHandler<IUser> = (data: IUser) => {
-    console.log(data);
     if (data) {
-      const updateData: IUser = {
+      let updateData: IUser = {
         firstname: data.firstname,
         lastname: data.lastname,
         phoneNumber: data.phoneNumber,
@@ -74,47 +48,37 @@ const UserInfo = () => {
         try {
           axios.post('http://localhost:8000/upload/', imageData);
         } catch (err) {
-          console.log(err);
+          console.error(err);
         }
 
-        const updateDataWithAvatar = {
+        updateData = {
           ...updateData,
           avatar: fileName,
         };
-
-        !!accessToken &&
-          !!user._id &&
-          dispatch(updateUser(updateDataWithAvatar, accessToken, user._id)).then(() => {
-            setLoading(true);
-          });
-      } else {
-        !!accessToken &&
-          !!user._id &&
-          dispatch(updateUser(updateData, accessToken, user._id)).then(() => {
-            setLoading(true);
-          });
       }
+      !!accessToken &&
+        !!user._id &&
+        dispatch(updateUser(updateData, accessToken, user._id)).then(() =>
+          dispatch(getUserInfo(accessToken, id as string)),
+        );
     }
   };
-  return loading ? (
-    <CircularProgress />
-  ) : (
+  return (
     <form action='' onSubmit={handleSubmit(formSubmitHandler)} encType='multipart/form-data'>
       {!!user && (
         <Box
           sx={{
-            display: 'flex',
+            display: { xs: 'block', md: 'flex' },
             flexWrap: 'wrap',
             '& > :not(style)': {
-              m: 1,
+              m: 0,
               width: '100%',
-              // height: '80vh',
             },
           }}
         >
           <Paper elevation={3}>
             <Grid container padding={3}>
-              <Grid item xs={5} padding={5}>
+              <Grid item xs={12} md={5} padding={5}>
                 <Card
                   sx={{
                     width: '100%',
@@ -146,9 +110,9 @@ const UserInfo = () => {
                   </Button>
                 </Card>
               </Grid>
-              <Grid item container xs={7} padding={5} spacing={3}>
+              <Grid item container xs={12} md={5} padding={5} spacing={3}>
                 <Grid item container spacing={2} xs={12}>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       label='Firstname'
                       variant='outlined'
@@ -158,7 +122,7 @@ const UserInfo = () => {
                       {...register('firstname')}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       size='medium'
                       variant='outlined'
@@ -182,7 +146,7 @@ const UserInfo = () => {
                   />
                 </Grid>
                 <Grid item container spacing={2} xs={12}>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       label='Address line 1'
                       variant='outlined'
@@ -192,7 +156,7 @@ const UserInfo = () => {
                       {...register('addressLine1')}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       size='medium'
                       variant='outlined'
@@ -203,7 +167,7 @@ const UserInfo = () => {
                       {...register('addressLine2')}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       size='medium'
                       variant='outlined'
@@ -214,7 +178,7 @@ const UserInfo = () => {
                       {...register('city')}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       size='medium'
                       variant='outlined'

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   List,
@@ -18,12 +18,10 @@ import {
   TeamOutlined,
 } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
-import { GlobalContextProvider } from '~/Context/GlobalContext';
 import { useAppDispatch } from '~/redux/hooks';
 import { logout } from '~/redux/actions/auth';
 
 const SidebarList = () => {
-  const { setLoading } = useContext(GlobalContextProvider);
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -40,7 +38,7 @@ const SidebarList = () => {
   const dispatch = useAppDispatch();
   const handleLogout = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     handleListItemClick(e, 3);
-    dispatch(logout(accessToken)).then(() => setLoading(true));
+    dispatch(logout(accessToken)).then(() => navigate('/'));
   };
 
   return (
@@ -49,7 +47,7 @@ const SidebarList = () => {
         <Typography variant='h6'>Navigation</Typography>
       </Box>
       <ListItem disablePadding>
-        <Link to='/' className='w-100'>
+        <Link to='/dashboard' className='w-100'>
           <ListItemButton
             selected={selectedIndex === 0}
             onClick={(event) => handleListItemClick(event, 0)}
@@ -61,7 +59,7 @@ const SidebarList = () => {
           </ListItemButton>
         </Link>
       </ListItem>
-      {!!isAdmin && (
+      {isAdmin && isAdmin === 'true' && (
         <React.Fragment>
           <Box className='sidebar_sub'>
             <Typography variant='h6'>Manager</Typography>
@@ -96,6 +94,27 @@ const SidebarList = () => {
           </ListItem>
         </React.Fragment>
       )}
+
+      <React.Fragment>
+        <Box className='sidebar_sub'>
+          <Typography variant='h6'>Shop</Typography>
+        </Box>
+        <ListItem disablePadding>
+          <ListItemButton
+            selected={selectedIndex === 6}
+            onClick={(event) => {
+              handleListItemClick(event, 6);
+              navigate('/shop/sneaker');
+            }}
+          >
+            <ListItemIcon>
+              <ShopOutlined />
+            </ListItemIcon>
+            <ListItemText>Sneaker</ListItemText>
+          </ListItemButton>
+        </ListItem>
+      </React.Fragment>
+
       <Box className='sidebar_sub'>
         <Typography variant='h6'>Authentication</Typography>
       </Box>

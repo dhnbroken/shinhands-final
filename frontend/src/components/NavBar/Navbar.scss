@@ -1,0 +1,62 @@
+.user_header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 64px;
+  width: 100%;
+  z-index: 10;
+  transition: top 0.2s linear;
+  background-color: rgb(3, 37, 65);
+  color: white;
+  padding: 0 40px;
+}
+
+.language {
+  width: 28px;
+  height: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  padding: 3px 5px;
+  transition: linear 0.1s;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9em;
+  text-transform: uppercase;
+
+  &:hover {
+    cursor: pointer;
+    color: rgba(rgb(3, 37, 65), 1);
+    background-color: #fff;
+  }
+}
+
+.nav-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+}
+
+// .MuiGrid-grid-xs-6 .nav-item {
+//   justify-content: flex-end;
+// }
+
+@media (max-width: 767.98px) {
+  .user_header {
+    padding: 0;
+    justify-content: space-between;
+  }
+  .nav-item {
+    justify-content: flex-start;
+    a {
+      width: '100%';
+    }
+  }
+}

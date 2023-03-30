@@ -1,4 +1,3 @@
-import { Action, Dispatch } from '@reduxjs/toolkit';
 import { IUser } from '~/store/interface';
 import * as userApi from '../../API/user';
 
@@ -9,7 +8,7 @@ export const getUserInfo =
       const res = await userApi.getUserInfo(accessToken, userId);
       dispatch({ type: 'GETUSER_SUCCESS', data: res });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       dispatch({ type: 'GETUSER_FAIL' });
     }
   };
@@ -20,7 +19,7 @@ export const getAllUsers = (accessToken: string | null) => async (dispatch: any)
     const res = await userApi.getAllUsers(accessToken);
     dispatch({ type: 'GETUSERS_SUCCESS', data: res });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     dispatch({ type: 'GETUSERS_FAIL' });
   }
 };
@@ -31,6 +30,16 @@ export const updateUser =
       const res = await userApi.updateUser(data, accessToken, userId);
       dispatch({ type: 'UPDATE_SUCCESS', data: res });
     } catch (err) {
-      console.log(err);
+      console.error(err);
+    }
+  };
+
+export const updateIsAdmin =
+  (data: IUser, accessToken: string | null, userId: string | null) => async (dispatch: any) => {
+    try {
+      const res = await userApi.updateIsAdmin(data, accessToken, userId);
+      dispatch({ type: 'UPDATE_ADMIN_SUCCESS', data: res });
+    } catch (err) {
+      console.error(err);
     }
   };

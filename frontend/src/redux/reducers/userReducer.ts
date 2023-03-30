@@ -7,6 +7,7 @@ import {
   GETUSERS_FAIL,
   CLEAR_USERS,
   UPDATE_SUCCESS,
+  UPDATE_ADMIN_SUCCESS,
 } from './../actions/types';
 
 const initialState = { isLoggedIn: false, user: null, users: null };
@@ -40,6 +41,8 @@ export default function (state = initialState, action: any) {
         ...state,
         user: data,
       };
+    case UPDATE_ADMIN_SUCCESS:
+      return { ...state };
     default:
       return state;
   }

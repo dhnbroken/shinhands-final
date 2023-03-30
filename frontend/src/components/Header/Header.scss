@@ -25,3 +25,12 @@
     }
   }
 }
+
+@media (max-width: 767.98px) {
+  .MuiToolbar-root .header_btn {
+    &:first-of-type {
+      display: none;
+      margin-left: 0px;
+    }
+  }
+}

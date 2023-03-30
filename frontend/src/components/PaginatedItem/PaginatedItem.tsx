@@ -4,24 +4,19 @@ import { useDemoData } from '@mui/x-data-grid-generator';
 import { GlobalContextProvider } from '~/Context/GlobalContext';
 
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditModal from '../EditModal/EditModal';
 import { deleteUser } from '~/API/user';
-import EditIcon from '@mui/icons-material/Edit';
 import { signout } from '~/API/auth';
-import { CircularProgress } from '@mui/material';
-import { IUser } from '~/store/interface';
+import { CircularProgress, Switch } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '~/redux/hooks';
+import { updateIsAdmin } from '~/redux/actions/userActions';
+import Swal from 'sweetalert2';
+import { swalConfig } from '~/utils/swalConfig';
 
 export default function PaginatedItems({ loadingComponent }: any) {
-  const { setUsers, users, loading, setLoading, setUser } = React.useContext(GlobalContextProvider);
+  const { setUsers, users, setLoading, setUser } = React.useContext(GlobalContextProvider);
 
   const accessToken = sessionStorage.getItem('accessToken');
-  const userId = sessionStorage.getItem('userId');
-
-  const [userInfo, setUserInfo] = React.useState<IUser>({});
-
-  const [open, setOpen] = React.useState(false);
   const { user } = useSelector((state: any) => state.userReducer);
 
   const { data } = useDemoData({
@@ -45,31 +40,51 @@ export default function PaginatedItems({ loadingComponent }: any) {
     }
   };
 
-  const navigate = useNavigate();
-
-  const handleUpdate = (params: any) => {
-    setOpen(true);
-    navigate(`/user/${params.id}`);
+  const handleDeleteUser = (accessToken: string | null, userId: string | null) => {
+    Swal.fire(swalConfig).then((result) => {
+      if (result.isConfirmed) {
+        deleteUserAccount(accessToken, userId).then(() => {
+          Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        });
+      }
+    });
   };
 
+  const dispatch = useAppDispatch();
+
+  const handleChange = (params: any) => {
+    dispatch(updateIsAdmin({ ...params.row, isAdmin: !params.isAdmin }, accessToken, params.id));
+  };
   const columns: GridColDef[] = [
-    { field: 'id', hideable: true },
+    { field: 'index', headerName: 'Index', width: 50, hideable: false },
     {
       field: 'username',
       headerName: 'Username',
-      // width: 200,
-      flex: 1,
+      width: 150,
     },
     {
       field: 'email',
       headerName: 'Email',
-      flex: 2,
+      width: 200,
     },
-    { field: 'isAdmin', headerName: 'Admin', flex: 1 },
+    {
+      field: 'isAdmin',
+      headerName: 'Admin',
+      width: 150,
+
+      type: 'actions',
+      getActions: (params) => [
+        <Switch
+          key={params.id}
+          defaultChecked={params.row.isAdmin}
+          onChange={() => handleChange(params.row)}
+        />,
+      ],
+    },
     {
       field: 'createdAt',
       headerName: 'Created At',
-      flex: 1,
+      width: 150,
     },
     {
       field: 'actions',
@@ -80,16 +95,8 @@ export default function PaginatedItems({ loadingComponent }: any) {
           key={params.id}
           icon={<DeleteIcon />}
           label='Delete'
-          onClick={() => deleteUserAccount(accessToken, params.id as any)}
+          onClick={() => handleDeleteUser(accessToken, params.id as any)}
           disabled={!user?.isAdmin}
-          showInMenu
-        />,
-        <GridActionsCellItem
-          key={params.id}
-          icon={<EditIcon />}
-          label='Update'
-          onClick={() => handleUpdate(params)}
-          disabled={params.id !== userId}
           showInMenu
         />,
       ],
@@ -115,13 +122,6 @@ export default function PaginatedItems({ loadingComponent }: any) {
           />
         )
       )}
-      <EditModal
-        open={open}
-        setOpen={setOpen}
-        loading={loading}
-        userInfo={userInfo}
-        setUserInfo={setUserInfo}
-      />
     </div>
   );
 }

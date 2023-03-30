@@ -27,8 +27,20 @@ export const updateUser = async (
   return res.data;
 };
 
+export const updateIsAdmin = async (
+  data: IUser,
+  accessToken: string | null,
+  userId: string | null,
+) => {
+  const res = await axiosAction.put(`/v1/user/${userId}/update/admin`, data, {
+    params: { id: userId },
+    headers: { token: `Bearer ${accessToken}` },
+  });
+  return res.data;
+};
+
 export const deleteUser = async (accessToken: string | null, userId: string | null) => {
-  const res = await axiosAction.delete(`/v1/user/${userId}/delete/`, {
+  const res = await axiosInstance.delete(`/v1/user/${userId}/delete/`, {
     params: { id: userId },
     headers: { token: `Bearer ${accessToken}` },
   });

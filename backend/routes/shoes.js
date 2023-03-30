@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const shoesController = require('../controllers/ShoesController.js');
+const { verifyTokenAndAdmin } = require('../controllers/verifyToken.js');
 
-router.post('/', shoesController.createShoes);
+router.post('/', verifyTokenAndAdmin, shoesController.createShoes);
 router.get('/', shoesController.getAllShoes);
 router.get('/:id', shoesController.getShoes);
-router.put('/:id', shoesController.updateShoes);
-router.delete('/:id', shoesController.deleteShoes);
+router.put('/:id', verifyTokenAndAdmin, shoesController.updateShoes);
+router.delete('/:id', verifyTokenAndAdmin, shoesController.deleteShoes);
 
 module.exports = router;

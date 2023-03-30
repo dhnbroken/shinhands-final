@@ -4,6 +4,8 @@ import { userInitial } from '~/store/constants';
 export const ProjectContext = {
   loading: false,
   setLoading: () => {},
+  loadingComponent: false,
+  setLoadingComponent: () => {},
   users: [],
   setUsers: () => {},
   user: userInitial,

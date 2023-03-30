@@ -72,7 +72,7 @@ const EditModal: React.FC<Props> = (props) => {
       try {
         axios.post('http://localhost:8000/upload/', imageData);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
       if (data) {
         const updateData: IUser = {
