@@ -2,7 +2,7 @@
 
 Create a User/Products Management project using 
 
-Frontend: Vite, React JS, TypeScript, Eslint, Prettier.
+Frontend: Vite, React JS, TypeScript, Eslint, Prettier, MUI, Antd, React-Toasify, Sweetalert2.
 
 Backend: Nodejs, Express, MongoDB.
 
