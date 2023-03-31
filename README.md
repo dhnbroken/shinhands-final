@@ -1,7 +1,9 @@
 <h1 align='center'>User Management ⚡</h1>
 
 Create a User/Products Management project using 
+
 Frontend: Vite, React JS, TypeScript, Eslint, Prettier.
+
 Backend: Nodejs, Express, MongoDB.
 
 #### **Deploy: Coming Soon**
@@ -37,9 +39,18 @@ git clone https://github.com/dhnbroken/shinhands-final.git
 
 2. Open 2 terminal
 
+First terminal
+
 ```
-First terminal: cd frontend
-Second terminal: cd backend
+cd frontend
+
+```
+
+Second terminal:
+
+```
+cd backend
+
 ```
 
 3. Install Packages (both frontend and backend)
@@ -50,9 +61,18 @@ yarn install
 
 4. Start Project
 
+Frontend:
+
 ```
-Frontend: yarn dev
-Backend: npm start (yarn start)
+yarn dev
+
+```
+
+Backend: 
+
+```
+ 
+npm start (yarn start)
 ```
 
 
