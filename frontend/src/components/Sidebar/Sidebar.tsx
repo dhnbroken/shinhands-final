@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Drawer, CssBaseline, AppBar } from '@mui/material';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
 
 import './Sidebar.scss';
 import SidebarList from './SidebarList';
@@ -28,8 +27,8 @@ const Sidebar: React.FC = () => {
         variant='permanent'
         anchor='left'
       >
-        <Box display={'flex'} justifyItems='center' alignItems='center' padding='15px 10px'>
-          <AcUnitIcon color='primary' fontSize='large' /> Admin Dashboard
+        <Box display={'flex'} justifyContent='center' width={'100%'} padding='15px 10px'>
+          <img src={import.meta.env.VITE_PUBLIC_IMAGE_URL + 'logo_AM.png'} alt='logo' width={60} />
         </Box>
         <SidebarList />
       </Drawer>
