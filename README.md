@@ -43,14 +43,12 @@ First terminal
 
 ```
 cd frontend
-
 ```
 
 Second terminal:
 
 ```
 cd backend
-
 ```
 
 3. Install Packages (both frontend and backend)
@@ -65,13 +63,11 @@ Frontend:
 
 ```
 yarn dev
-
 ```
 
 Backend: 
 
 ```
- 
 npm start (yarn start)
 ```
 
