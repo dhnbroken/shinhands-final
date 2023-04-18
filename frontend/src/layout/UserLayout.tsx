@@ -12,8 +12,6 @@ const UserLayout = ({ children }: any) => {
   const userId = sessionStorage.getItem('userId');
   const { loading } = useContext(GlobalContextProvider);
 
-  console.log(userId);
-
   useEffect(() => {
     dispatch(getUserInfo(accessToken, userId));
     dispatch(getAllShoes());
